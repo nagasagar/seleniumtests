@@ -1,62 +1,34 @@
 package com.seleniumtests.webpage;
 
-import static com.seleniumtests.core.Locator.locateByCSSSelector;
-import static com.seleniumtests.core.Locator.locateByName;
+import org.openqa.selenium.By;
 
-import com.seleniumtests.dataobject.User;
-
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.webelements.ButtonElement;
+import com.seleniumtests.webelements.ImageElement;
 import com.seleniumtests.webelements.PageObject;
 import com.seleniumtests.webelements.TextFieldElement;
 
-/**
- * Created by tarun on 3/22/16.
- */
+
 public class LoginPage extends PageObject {
+	
+	 private static ImageElement identifier_element = new ImageElement("Sign - on Image",By.cssSelector("img[src='/images/masts/mast_signon.gif']"));
+	
+	 private static TextFieldElement UserNameTextBox = new TextFieldElement("UserName Text Box", By.name("userName"));
+	 private static TextFieldElement PasswordTextBox = new TextFieldElement("Password Text Box", By.name("password"));
+	 private static ButtonElement SubmitButton = new ButtonElement("Submit Button", By.cssSelector("input[src='/images/forms/submit.gif']"));
 
-    private static final TextFieldElement userNameTextBox = new TextFieldElement("Username Textbox",
-            locateByName("usernameLoginPage"));
-
-    private static final TextFieldElement passwordTextBox = new TextFieldElement("Password Textbox",
-            locateByName("psw1"));
-
-    private ButtonElement submitButton = new ButtonElement("submit Button",
-            locateByCSSSelector("input~input[value='Submit']"));
-
-    public LoginPage() throws Exception {
-        super(userNameTextBox);
-    }
-
-    public LoginPage enterUserName(final String userName) {
-        userNameTextBox.clearAndType(userName);
-
-        return this;
-    }
-
-    public LoginPage enterPassword(final String password) {
-        userNameTextBox.clearAndType(password);
-
-        return this;
-    }
-
-    public static boolean isUserNameDisplayed() {
-        return userNameTextBox.isDisplayed();
-    }
-
-    /**
-     * Google Home Page is not part of seleniumtests.com but this how you can move from one page object to another.
-     *
-     * @return
-     *
-     * @throws  Exception
-     */
-    public GoogleHomePage clickSubmitButton() throws Exception {
-        submitButton.click();
-
-        return new GoogleHomePage();
-    }
-
-    public GoogleHomePage enterLoginData(final User user) throws Exception {
-        return enterUserName(user.getUserName()).enterPassword(user.getPassword()).clickSubmitButton();
-    }
+	 public LoginPage(final boolean openPageURL) throws Exception {
+			super(identifier_element, openPageURL ? SeleniumTestsContextManager.getThreadContext().getAppURL() : null);
+	 }
+	 
+	 public FlightFinderPage login2Website() throws Exception {
+		 UserNameTextBox.clear();
+		 UserNameTextBox.type("Apache");
+		 PasswordTextBox.clear();
+		 PasswordTextBox.type("jmeter");
+		 SubmitButton.submit();
+		 return new FlightFinderPage();
+	    } 
+	 
+	 
 }

@@ -82,7 +82,7 @@ public class RegistrationPage extends PageObject {
     public LoginPage clickSubmitButton() throws Exception {
         submitButton.click();
 
-        return new LoginPage();
+        return new LoginPage(false);
     }
 
     public LoginPage submitValidRegistrationData(final User user) throws Exception {
